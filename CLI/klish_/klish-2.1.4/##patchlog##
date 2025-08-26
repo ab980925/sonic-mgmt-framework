@@ -1,0 +1,91 @@
+## Applying the patch from ./patches/./klish-2.1.4
+patching file .//./klish-2.1.4/./bin/clish.c.tmp (read from .//./klish-2.1.4/./bin/clish.c)
+moving .//./klish-2.1.4/./bin/clish.c.tmp -> .//./klish-2.1.4/./bin/clish.c
+copying ./patches/./klish-2.1.4/./mgmt_clish_extn_param.h .//./klish-2.1.4/.
+patching file .//./klish-2.1.4/./tinyrl/tinyrl.h.tmp (read from .//./klish-2.1.4/./tinyrl/tinyrl.h)
+moving .//./klish-2.1.4/./tinyrl/tinyrl.h.tmp -> .//./klish-2.1.4/./tinyrl/tinyrl.h
+patching file .//./klish-2.1.4/./tinyrl/history/history.c.tmp (read from .//./klish-2.1.4/./tinyrl/history/history.c)
+moving .//./klish-2.1.4/./tinyrl/history/history.c.tmp -> .//./klish-2.1.4/./tinyrl/history/history.c
+patching file .//./klish-2.1.4/./tinyrl/tinyrl.c.tmp (read from .//./klish-2.1.4/./tinyrl/tinyrl.c)
+moving .//./klish-2.1.4/./tinyrl/tinyrl.c.tmp -> .//./klish-2.1.4/./tinyrl/tinyrl.c
+patching file .//./klish-2.1.4/./configure.ac.tmp (read from .//./klish-2.1.4/./configure.ac)
+moving .//./klish-2.1.4/./configure.ac.tmp -> .//./klish-2.1.4/./configure.ac
+patching file .//./klish-2.1.4/./lub/argv/argv.c.tmp (read from .//./klish-2.1.4/./lub/argv/argv.c)
+moving .//./klish-2.1.4/./lub/argv/argv.c.tmp -> .//./klish-2.1.4/./lub/argv/argv.c
+patching file .//./klish-2.1.4/./lub/string.h.tmp (read from .//./klish-2.1.4/./lub/string.h)
+moving .//./klish-2.1.4/./lub/string.h.tmp -> .//./klish-2.1.4/./lub/string.h
+patching file .//./klish-2.1.4/./lub/string/string.c.tmp (read from .//./klish-2.1.4/./lub/string/string.c)
+moving .//./klish-2.1.4/./lub/string/string.c.tmp -> .//./klish-2.1.4/./lub/string/string.c
+patching file .//./klish-2.1.4/./lub/argv.h.tmp (read from .//./klish-2.1.4/./lub/argv.h)
+moving .//./klish-2.1.4/./lub/argv.h.tmp -> .//./klish-2.1.4/./lub/argv.h
+patching file .//./klish-2.1.4/./clish/param.h.tmp (read from .//./klish-2.1.4/./clish/param.h)
+moving .//./klish-2.1.4/./clish/param.h.tmp -> .//./klish-2.1.4/./clish/param.h
+patching file .//./klish-2.1.4/./clish/ptype/private.h.tmp (read from .//./klish-2.1.4/./clish/ptype/private.h)
+moving .//./klish-2.1.4/./clish/ptype/private.h.tmp -> .//./klish-2.1.4/./clish/ptype/private.h
+patching file .//./klish-2.1.4/./clish/ptype/ptype.c.tmp (read from .//./klish-2.1.4/./clish/ptype/ptype.c)
+moving .//./klish-2.1.4/./clish/ptype/ptype.c.tmp -> .//./klish-2.1.4/./clish/ptype/ptype.c
+patching file .//./klish-2.1.4/./clish/param/module.am.tmp (read from .//./klish-2.1.4/./clish/param/module.am)
+moving .//./klish-2.1.4/./clish/param/module.am.tmp -> .//./klish-2.1.4/./clish/param/module.am
+patching file .//./klish-2.1.4/./clish/param/param.c.tmp (read from .//./klish-2.1.4/./clish/param/param.c)
+moving .//./klish-2.1.4/./clish/param/param.c.tmp -> .//./klish-2.1.4/./clish/param/param.c
+copying ./patches/./klish-2.1.4/./clish/param/mgmt_clish_extn_param.c .//./klish-2.1.4/./clish/param
+patching file .//./klish-2.1.4/./clish/param/private.h.tmp (read from .//./klish-2.1.4/./clish/param/private.h)
+moving .//./klish-2.1.4/./clish/param/private.h.tmp -> .//./klish-2.1.4/./clish/param/private.h
+patching file .//./klish-2.1.4/./clish/param/paramv.c.tmp (read from .//./klish-2.1.4/./clish/param/paramv.c)
+moving .//./klish-2.1.4/./clish/param/paramv.c.tmp -> .//./klish-2.1.4/./clish/param/paramv.c
+patching file .//./klish-2.1.4/./clish/plugin/module.am.tmp (read from .//./klish-2.1.4/./clish/plugin/module.am)
+moving .//./klish-2.1.4/./clish/plugin/module.am.tmp -> .//./klish-2.1.4/./clish/plugin/module.am
+copying ./patches/./klish-2.1.4/./clish/plugin/clish_api.h .//./klish-2.1.4/./clish/plugin
+copying ./patches/./klish-2.1.4/./clish/plugin/mgmt_clish_utils.h .//./klish-2.1.4/./clish/plugin
+copying ./patches/./klish-2.1.4/./clish/plugin/mgmt_clish_utils.c .//./klish-2.1.4/./clish/plugin
+patching file .//./klish-2.1.4/./clish/command/private.h.tmp (read from .//./klish-2.1.4/./clish/command/private.h)
+moving .//./klish-2.1.4/./clish/command/private.h.tmp -> .//./klish-2.1.4/./clish/command/private.h
+patching file .//./klish-2.1.4/./clish/command/command.c.tmp (read from .//./klish-2.1.4/./clish/command/command.c)
+moving .//./klish-2.1.4/./clish/command/command.c.tmp -> .//./klish-2.1.4/./clish/command/command.c
+patching file .//./klish-2.1.4/./clish/shell/shell_wdog.c.tmp (read from .//./klish-2.1.4/./clish/shell/shell_wdog.c)
+moving .//./klish-2.1.4/./clish/shell/shell_wdog.c.tmp -> .//./klish-2.1.4/./clish/shell/shell_wdog.c
+patching file .//./klish-2.1.4/./clish/shell/shell_execute.c.tmp (read from .//./klish-2.1.4/./clish/shell/shell_execute.c)
+moving .//./klish-2.1.4/./clish/shell/shell_execute.c.tmp -> .//./klish-2.1.4/./clish/shell/shell_execute.c
+patching file .//./klish-2.1.4/./clish/shell/shell_libxml2.c.tmp (read from .//./klish-2.1.4/./clish/shell/shell_libxml2.c)
+moving .//./klish-2.1.4/./clish/shell/shell_libxml2.c.tmp -> .//./klish-2.1.4/./clish/shell/shell_libxml2.c
+patching file .//./klish-2.1.4/./clish/shell/shell_xml.c.tmp (read from .//./klish-2.1.4/./clish/shell/shell_xml.c)
+moving .//./klish-2.1.4/./clish/shell/shell_xml.c.tmp -> .//./klish-2.1.4/./clish/shell/shell_xml.c
+patching file .//./klish-2.1.4/./clish/shell/shell_tinyrl.c.tmp (read from .//./klish-2.1.4/./clish/shell/shell_tinyrl.c)
+moving .//./klish-2.1.4/./clish/shell/shell_tinyrl.c.tmp -> .//./klish-2.1.4/./clish/shell/shell_tinyrl.c
+patching file .//./klish-2.1.4/./clish/shell/shell_help.c.tmp (read from .//./klish-2.1.4/./clish/shell/shell_help.c)
+moving .//./klish-2.1.4/./clish/shell/shell_help.c.tmp -> .//./klish-2.1.4/./clish/shell/shell_help.c
+patching file .//./klish-2.1.4/./clish/shell/private.h.tmp (read from .//./klish-2.1.4/./clish/shell/private.h)
+moving .//./klish-2.1.4/./clish/shell/private.h.tmp -> .//./klish-2.1.4/./clish/shell/private.h
+patching file .//./klish-2.1.4/./clish/shell/shell_parse.c.tmp (read from .//./klish-2.1.4/./clish/shell/shell_parse.c)
+moving .//./klish-2.1.4/./clish/shell/shell_parse.c.tmp -> .//./klish-2.1.4/./clish/shell/shell_parse.c
+patching file .//./klish-2.1.4/./clish/shell/shell_ptype.c.tmp (read from .//./klish-2.1.4/./clish/shell/shell_ptype.c)
+moving .//./klish-2.1.4/./clish/shell/shell_ptype.c.tmp -> .//./klish-2.1.4/./clish/shell/shell_ptype.c
+patching file .//./klish-2.1.4/./clish/shell/shell_new.c.tmp (read from .//./klish-2.1.4/./clish/shell/shell_new.c)
+moving .//./klish-2.1.4/./clish/shell/shell_new.c.tmp -> .//./klish-2.1.4/./clish/shell/shell_new.c
+patching file .//./klish-2.1.4/./clish/shell/shell_command.c.tmp (read from .//./klish-2.1.4/./clish/shell/shell_command.c)
+moving .//./klish-2.1.4/./clish/shell/shell_command.c.tmp -> .//./klish-2.1.4/./clish/shell/shell_command.c
+patching file .//./klish-2.1.4/./clish/command.h.tmp (read from .//./klish-2.1.4/./clish/command.h)
+moving .//./klish-2.1.4/./clish/command.h.tmp -> .//./klish-2.1.4/./clish/command.h
+patching file .//./klish-2.1.4/./clish/shell.h.tmp (read from .//./klish-2.1.4/./clish/shell.h)
+moving .//./klish-2.1.4/./clish/shell.h.tmp -> .//./klish-2.1.4/./clish/shell.h
+patching file .//./klish-2.1.4/./clish/pargv.h.tmp (read from .//./klish-2.1.4/./clish/pargv.h)
+moving .//./klish-2.1.4/./clish/pargv.h.tmp -> .//./klish-2.1.4/./clish/pargv.h
+patching file .//./klish-2.1.4/./clish/nspace.h.tmp (read from .//./klish-2.1.4/./clish/nspace.h)
+moving .//./klish-2.1.4/./clish/nspace.h.tmp -> .//./klish-2.1.4/./clish/nspace.h
+patching file .//./klish-2.1.4/./clish/ptype.h.tmp (read from .//./klish-2.1.4/./clish/ptype.h)
+moving .//./klish-2.1.4/./clish/ptype.h.tmp -> .//./klish-2.1.4/./clish/ptype.h
+patching file .//./klish-2.1.4/./plugins/clish/hook_log.c.tmp (read from .//./klish-2.1.4/./plugins/clish/hook_log.c)
+moving .//./klish-2.1.4/./plugins/clish/hook_log.c.tmp -> .//./klish-2.1.4/./plugins/clish/hook_log.c
+patching file .//./klish-2.1.4/./plugins/clish/module.am.tmp (read from .//./klish-2.1.4/./plugins/clish/module.am)
+moving .//./klish-2.1.4/./plugins/clish/module.am.tmp -> .//./klish-2.1.4/./plugins/clish/module.am
+copying ./patches/./klish-2.1.4/./plugins/clish/call_pyobj.c .//./klish-2.1.4/./plugins/clish
+copying ./patches/./klish-2.1.4/./plugins/clish/logging.h .//./klish-2.1.4/./plugins/clish
+copying ./patches/./klish-2.1.4/./plugins/clish/rest_cl.cpp .//./klish-2.1.4/./plugins/clish
+patching file .//./klish-2.1.4/./plugins/clish/private.h.tmp (read from .//./klish-2.1.4/./plugins/clish/private.h)
+moving .//./klish-2.1.4/./plugins/clish/private.h.tmp -> .//./klish-2.1.4/./plugins/clish/private.h
+patching file .//./klish-2.1.4/./plugins/clish/builtin_init.c.tmp (read from .//./klish-2.1.4/./plugins/clish/builtin_init.c)
+moving .//./klish-2.1.4/./plugins/clish/builtin_init.c.tmp -> .//./klish-2.1.4/./plugins/clish/builtin_init.c
+patching file .//./klish-2.1.4/./plugins/clish/sym_script.c.tmp (read from .//./klish-2.1.4/./plugins/clish/sym_script.c)
+moving .//./klish-2.1.4/./plugins/clish/sym_script.c.tmp -> .//./klish-2.1.4/./plugins/clish/sym_script.c
+copying ./patches/./klish-2.1.4/./plugins/clish/nos_extn.c .//./klish-2.1.4/./plugins/clish
+copying ./patches/./klish-2.1.4/./plugins/clish/nos_extn.h .//./klish-2.1.4/./plugins/clish
