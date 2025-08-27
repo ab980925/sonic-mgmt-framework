@@ -290,6 +290,7 @@
 		<xs:attribute name="args" type="xs:string" use="optional"/>
 		<xs:attribute name="args_help" type="xs:string" use="optional"/>
 		<xs:attribute name="escape_chars" type="xs:string" use="optional"/>
+		<xs:attribute name="capability" type="xs:string" use="optional"/>
 <!-- legacy -->	<xs:attribute name="lock" type="bool_t" use="optional" default="true"/>
 <!-- legacy -->	<xs:attribute name="interrupt" type="bool_t" use="optional" default="false"/>
 	</xs:complexType>
@@ -371,6 +372,7 @@
 		<xs:attribute name="test" type="xs:string" use="optional"/>
 		<xs:attribute name="completion" type="xs:string" use="optional"/>
 		<xs:attribute name="access" type="xs:string" use="optional"/>
+		<xs:attribute name="capability" type="xs:string" use="optional"/>
 	</xs:complexType>
 
 <!--

@@ -84,6 +84,7 @@ limitations under the License.
   <xs:attribute name="release" type="stringType" use="optional"/>
   <xs:attribute name="example" type="stringType" use="optional"/>
   <xs:attribute name="render_view" type="stringType" use="optional"/>
+  <xs:attribute name="capability" type="stringType" use="optional"/>
 </xs:attributeGroup>
 
 <xs:attributeGroup name="paramAttr">
@@ -108,6 +109,7 @@ limitations under the License.
   <xs:attribute name="hidden" type="stringType" use="optional"/>
   <xs:attribute name="completion" type="stringType" use="optional"/>
   <xs:attribute name="access" type="stringType" use="optional"/>
+  <xs:attribute name="capability" type="stringType" use="optional"/>
 </xs:attributeGroup>
 
 <xs:attributeGroup name="viewAttr">
