@@ -12,6 +12,8 @@
 #include "lub/ctype.h"
 #include "lub/system.h"
 #include "lub/conv.h"
+#include "lub/list.h"
+#include "../toml.h"
 #include <stdlib.h>
 #include <string.h>
 #include <assert.h>
@@ -74,21 +76,90 @@ static clish_xml_cb_t xml_elements[] = {
 const char *default_path = "/etc/clish;~/.clish";
 
 static int process_node(clish_shell_t *shell, clish_xmlnode_t *node,
-	void *parent);
+        void *parent);
+
+/*--------------------------------------------------------- */
+/*
+ * Capability handling. Enabled capabilities are read once during
+ * initialization from /etc/capacility.toml and stored for quick lookup.
+ */
+static lub_list_t *enabled_caps = NULL;
+
+static void clish_capability_load(void)
+{
+        FILE *fp;
+        toml_table_t *root;
+        char errbuf[128];
+        int i;
+
+        if (enabled_caps)
+                return; /* already loaded */
+
+        enabled_caps = lub_list_new(NULL, free);
+
+        fp = fopen("/etc/capacility.toml", "r");
+        if (!fp)
+                return;
+
+        root = toml_parse_file(fp, errbuf, sizeof(errbuf));
+        fclose(fp);
+        if (!root)
+                return;
+
+        for (i = 0;; i++) {
+                const char *section = toml_table_key(root, i);
+                if (!section)
+                        break;
+                toml_table_t *tab = toml_table_in(root, section);
+                if (!tab)
+                        continue;
+                toml_datum_t state = toml_string_in(tab, "default_state");
+                if (state.ok) {
+                        if (!lub_string_nocasecmp(state.u.s, "enabled")) {
+                                char *name = lub_string_dup(section);
+                                if (name)
+                                        lub_list_add(enabled_caps, name);
+                        }
+                        free(state.u.s);
+                }
+        }
+
+        toml_free(root);
+}
+
+static bool_t clish_capability_enabled(const char *name)
+{
+        lub_list_node_t *iter;
+
+        if (!name || !*name)
+                return BOOL_TRUE;
+
+        if (!enabled_caps)
+                clish_capability_load();
+
+        for (iter = lub_list__get_head(enabled_caps); iter;
+             iter = lub_list_node__get_next(iter)) {
+                const char *cap = lub_list_node__get_data(iter);
+                if (!lub_string_nocasecmp(cap, name))
+                        return BOOL_TRUE;
+        }
+
+        return BOOL_FALSE;
+}
 
 /*-------------------------------------------------------- */
 int clish_shell_load_scheme(clish_shell_t *this, const char *xml_path, const char *xslt_path)
 {
-	const char *path = xml_path;
-	char *buffer;
-	char *dirname;
-	char *saveptr = NULL;
-	int res = -1;
-	clish_xmldoc_t *doc = NULL;
-	DIR *dir;
+        const char *path = xml_path;
+        char *buffer;
+        char *dirname;
+        char *saveptr = NULL;
+        int res = -1;
+        clish_xmldoc_t *doc = NULL;
+        DIR *dir;
 
 #ifdef HAVE_LIB_LIBXSLT
-	clish_xslt_t *xslt = NULL;
+        clish_xslt_t *xslt = NULL;
 
 	/* Load global XSLT stylesheet */
 	if (xslt_path) {
@@ -100,13 +171,16 @@ int clish_shell_load_scheme(clish_shell_t *this, const char *xml_path, const cha
 		}
 	}
 #else
-	xslt_path = xslt_path; /* Happy compiler */
+        xslt_path = xslt_path; /* Happy compiler */
 #endif
 
-	/* Use the default path */
-	if (!path)
-		path = default_path;
-	buffer = lub_system_tilde_expand(path);
+        /* Load capability list once */
+        clish_capability_load();
+
+        /* Use the default path */
+        if (!path)
+                path = default_path;
+        buffer = lub_system_tilde_expand(path);
 
 	/* Loop though each directory */
 	for (dirname = strtok_r(buffer, ";", &saveptr);
@@ -486,11 +560,12 @@ static int process_command(clish_shell_t *shell, clish_xmlnode_t *element,
 	char *help = clish_xmlnode_fetch_attr(element, "help");
 	char *view = clish_xmlnode_fetch_attr(element, "view");
 	char *viewid = clish_xmlnode_fetch_attr(element, "viewid");
-	char *escape_chars = clish_xmlnode_fetch_attr(element, "escape_chars");
-	char *args_name = clish_xmlnode_fetch_attr(element, "args");
-	char *args_help = clish_xmlnode_fetch_attr(element, "args_help");
-	char *ref = clish_xmlnode_fetch_attr(element, "ref");
+        char *escape_chars = clish_xmlnode_fetch_attr(element, "escape_chars");
+        char *args_name = clish_xmlnode_fetch_attr(element, "args");
+        char *args_help = clish_xmlnode_fetch_attr(element, "args_help");
+        char *ref = clish_xmlnode_fetch_attr(element, "ref");
         char *hidden = clish_xmlnode_fetch_attr(element, "hidden");
+        char *capability = clish_xmlnode_fetch_attr(element, "capability");
 #ifdef LEGACY
 	char *lock = clish_xmlnode_fetch_attr(element, "lock");
 	char *interrupt = clish_xmlnode_fetch_attr(element, "interrupt");
@@ -498,14 +573,18 @@ static int process_command(clish_shell_t *shell, clish_xmlnode_t *element,
 #endif
 
 	/* Check syntax */
-	if (!name) {
-		fprintf(stderr, CLISH_XML_ERROR_ATTR("name"));
-		goto error;
-	}
-	if (!help) {
-		fprintf(stderr, CLISH_XML_ERROR_ATTR("help"));
-		goto error;
-	}
+        if (!name) {
+                fprintf(stderr, CLISH_XML_ERROR_ATTR("name"));
+                goto error;
+        }
+        if (!help) {
+                fprintf(stderr, CLISH_XML_ERROR_ATTR("help"));
+                goto error;
+        }
+        if (capability && !clish_capability_enabled(capability)) {
+                res = 0;
+                goto error;
+        }
 
 	/* check this command doesn't already exist */
 	old = clish_view_find_command(v, name, BOOL_FALSE);
@@ -603,12 +682,13 @@ error:
 	clish_xml_release(viewid);
 	clish_xml_release(escape_chars);
 	clish_xml_release(args_name);
-	clish_xml_release(args_help);
-	clish_xml_release(ref);
-	clish_xml_release(hidden);
+        clish_xml_release(args_help);
+        clish_xml_release(ref);
+        clish_xml_release(hidden);
+        clish_xml_release(capability);
 #ifdef LEGACY
-	clish_xml_release(lock);
-	clish_xml_release(interrupt);
+        clish_xml_release(lock);
+        clish_xml_release(interrupt);
 #endif
 
 	return res;
@@ -729,10 +809,11 @@ static int process_param(clish_shell_t *shell, clish_xmlnode_t *element,
 	char *value = clish_xmlnode_fetch_attr(element, "value");
 	char *hidden = clish_xmlnode_fetch_attr(element, "hidden");
 	char *test = clish_xmlnode_fetch_attr(element, "test");
-	char *completion = clish_xmlnode_fetch_attr(element, "completion");
-	char *access = clish_xmlnode_fetch_attr(element, "access");
-	char *view = clish_xmlnode_fetch_attr(element, "view");
+        char *completion = clish_xmlnode_fetch_attr(element, "completion");
+        char *access = clish_xmlnode_fetch_attr(element, "access");
+        char *view = clish_xmlnode_fetch_attr(element, "view");
         char *viewid = clish_xmlnode_fetch_attr(element, "viewid");
+        char *capability = clish_xmlnode_fetch_attr(element, "capability");
 
 
 	/* The PARAM can be child of COMMAND or another PARAM */
@@ -752,18 +833,22 @@ static int process_param(clish_shell_t *shell, clish_xmlnode_t *element,
 		fprintf(stderr, CLISH_XML_ERROR_STR"STARTUP can't contain PARAMs.\n");
 		goto error;
 	}
-	if (!name) {
-		fprintf(stderr, CLISH_XML_ERROR_ATTR("name"));
-		goto error;
-	}
-	if (!help) {
-		fprintf(stderr, CLISH_XML_ERROR_ATTR("help"));
-		goto error;
-	}
-	if (!ptype) {
-		fprintf(stderr, CLISH_XML_ERROR_ATTR("ptype"));
-		goto error;
-	}
+        if (!name) {
+                fprintf(stderr, CLISH_XML_ERROR_ATTR("name"));
+                goto error;
+        }
+        if (!help) {
+                fprintf(stderr, CLISH_XML_ERROR_ATTR("help"));
+                goto error;
+        }
+        if (!ptype) {
+                fprintf(stderr, CLISH_XML_ERROR_ATTR("ptype"));
+                goto error;
+        }
+        if (capability && !clish_capability_enabled(capability)) {
+                res = 0;
+                goto error;
+        }
 
 	param = clish_param_new(name, help, ptype);
 
@@ -887,12 +972,13 @@ error:
 	clish_xml_release(value);
 	clish_xml_release(hidden);
 	clish_xml_release(test);
-	clish_xml_release(completion);
-	clish_xml_release(access);
+        clish_xml_release(completion);
+        clish_xml_release(access);
         clish_xml_release(view);
         clish_xml_release(viewid);
+        clish_xml_release(capability);
 
-	return res;
+        return res;
 }
 
 /* ------------------------------------------------------ */
