@@ -2,8 +2,9 @@
 lib_LTLIBRARIES += libclish.la
 
 libclish_la_SOURCES = \
-	clish/plugin_builtin.c \
-	clish/private.h
+        clish/plugin_builtin.c \
+        clish/private.h \
+        clish/toml.c
 
 libclish_la_LDFLAGS = $(VERSION_INFO) @XML_LDFLAGS@
 libclish_la_CFLAGS = @XML_CFLAGS@ $(DEBUG_CFLAGS) $(LEGACY_CFLAGS)
